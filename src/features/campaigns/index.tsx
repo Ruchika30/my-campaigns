@@ -1,18 +1,33 @@
-import { useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { fetchUsers, selectUsers } from "./campaignSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../../app/store"
 import DataTable from "react-data-table-component"
 import data from "./data.json"
 import { IRow } from "./types"
+import useDebounce from "../../hooks/useDebounce"
+import "./style.css"
 
 function Campaigns() {
+	const [searchTerm, setSearchTerm] = useState<string>("")
+
 	const dispatch = useDispatch<AppDispatch>()
+	const debouncedValue = useDebounce(searchTerm)
+
 	const { users, loading, error } = useSelector(selectUsers)
 
 	useEffect(() => {
 		dispatch(fetchUsers())
 	}, [dispatch])
+
+	const getData = useCallback(() => {
+		if (debouncedValue)
+			return data.filter((item) =>
+				item.name.toLowerCase().includes(debouncedValue)
+			)
+
+		return data
+	}, [debouncedValue])
 
 	const isActive = (start: string, end: string): boolean => {
 		const startDate = new Date(start)
@@ -28,9 +43,19 @@ function Campaigns() {
 		return user ? user.name : "Unknown User"
 	}
 
+	const tableStyle = {
+		headCells: {
+			style: {
+				fontWeight: "bold",
+				fontSize: "15px",
+				background: "#8dd6fa"
+			}
+		}
+	}
+
 	const columns = [
 		{
-			name: "Campaign Name",
+			name: "Name",
 			selector: (row: IRow) => row.name,
 			sortable: true
 		},
@@ -73,20 +98,53 @@ function Campaigns() {
 		{
 			name: "Budget ($)",
 			selector: (row: IRow) => row.budget.toLocaleString(),
-			sortable: true,
-			right: true
+			sortable: true
 		}
 	]
 
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value.toLowerCase())
+	}
+
 	return (
 		<div style={{ margin: "5%" }}>
-			<h3>Campaigns</h3>
+			<h3>Team Campaigns</h3>
 			<div
 				style={{
 					border: "1px solid grey"
 				}}
 			>
-				<DataTable columns={columns} data={data} progressPending={loading} />
+				{/* Filters */}
+				{/* <FilterComponent /> */}
+				<div
+					style={{
+						display: "flex",
+						justifyContent: "space-between",
+						padding: "10px"
+					}}
+				>
+					{/* Search by name */}
+					<div>
+						<input
+							className="input-field"
+							placeholder="Search by Name"
+							onChange={handleChange}
+						/>
+					</div>
+
+					{/* Search by dates */}
+					<div>
+						<input className="input-field" />
+						<input className="input-field" />
+					</div>
+				</div>
+
+				<DataTable
+					customStyles={tableStyle}
+					columns={columns}
+					data={getData()}
+					progressPending={loading}
+				/>
 			</div>
 		</div>
 	)
