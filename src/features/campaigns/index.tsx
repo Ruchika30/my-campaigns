@@ -10,7 +10,8 @@ import "./style.css"
 
 function Campaigns() {
 	const [searchTerm, setSearchTerm] = useState<string>("")
-
+	const [startDate, setStartDate] = useState<string>("")
+	const [endDate, setEndDate] = useState<string>("")
 	const dispatch = useDispatch<AppDispatch>()
 	const debouncedValue = useDebounce(searchTerm)
 
@@ -20,15 +21,44 @@ function Campaigns() {
 		dispatch(fetchUsers())
 	}, [dispatch])
 
+	const getFilteredBydate = useCallback(() => {
+		return data.filter((row: IRow) => {
+			const rowStartDate = new Date(row.startDate)
+			const rowEndDate = new Date(row.endDate)
+
+			const start = startDate ? new Date(startDate) : null
+			const end = endDate ? new Date(endDate) : null
+
+			const isAfterStart = start ? rowStartDate >= start : true
+			const isBeforeEnd = end ? rowEndDate <= end : true
+
+			return isAfterStart && isBeforeEnd
+		})
+	}, [endDate, startDate])
+
+	/* 
+		- Checks for debouncedValue. If present the  returns filtered data
+		- Else returns data
+	*/
 	const getData = useCallback(() => {
-		if (debouncedValue)
+		if (debouncedValue) {
 			return data.filter((item) =>
 				item.name.toLowerCase().includes(debouncedValue)
 			)
+		}
+
+		if (startDate || endDate) {
+			const result = getFilteredBydate()
+			return result
+		}
 
 		return data
-	}, [debouncedValue])
+	}, [debouncedValue, endDate, getFilteredBydate, startDate])
 
+	/* 
+		- Checks if campaign is active 
+		- End data should be more than current date, start date should be of past 
+	 */
 	const isActive = (start: string, end: string): boolean => {
 		const startDate = new Date(start)
 		const endDate = new Date(end)
@@ -83,11 +113,10 @@ function Campaigns() {
 
 				return (
 					<span
+						className="status"
 						style={{
-							border: `1px solid ${active ? "green" : "red"}`,
-							padding: "5px",
-							borderRadius: "5px",
-							color: active ? "green" : "red"
+							color: active ? "green" : "red",
+							border: `1px solid ${active ? "green" : "red"}`
 						}}
 					>
 						{active ? "Active" : "Inactive"}
@@ -106,6 +135,10 @@ function Campaigns() {
 		setSearchTerm(e.target.value.toLowerCase())
 	}
 
+	const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+		;(e.target as HTMLInputElement).showPicker()
+	}
+
 	return (
 		<div style={{ margin: "5%" }}>
 			<h3>Team Campaigns</h3>
@@ -115,7 +148,6 @@ function Campaigns() {
 				}}
 			>
 				{/* Filters */}
-				{/* <FilterComponent /> */}
 				<div
 					style={{
 						display: "flex",
@@ -134,8 +166,27 @@ function Campaigns() {
 
 					{/* Search by dates */}
 					<div>
-						<input className="input-field" />
-						<input className="input-field" />
+						<input
+							type="date"
+							value={startDate}
+							onChange={(e) => setStartDate(e.target.value)}
+							placeholder="Start date"
+							className="input-field"
+							style={{ marginRight: "20px" }}
+							onClick={(e) => (e.target as HTMLInputElement).focus()}
+							onFocus={handleFocus}
+						/>
+
+						<input
+							type="date"
+							min={startDate}
+							value={endDate}
+							onChange={(e) => setEndDate(e.target.value)}
+							placeholder="End date"
+							className="input-field"
+							onClick={(e) => (e.target as HTMLInputElement).focus()}
+							onFocus={handleFocus}
+						/>
 					</div>
 				</div>
 
