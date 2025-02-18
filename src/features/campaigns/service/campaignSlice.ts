@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { RootState } from "../../app/store"
+import { RootState } from "../../../app/store"
 
 export interface User {
 	id: number
@@ -38,34 +38,9 @@ const initialState: UserState = {
 	users: [],
 	loading: false,
 	error: null
-	// value: [
-	// 	{
-	// 		id: 0,
-	// 		name: "Unknown User",
-	// 		username: "unknown",
-	// 		email: "unknown@example.com",
-	// 		address: {
-	// 			street: "Unknown Street",
-	// 			suite: "Unknown Suite",
-	// 			city: "Unknown City",
-	// 			zipcode: "00000",
-	// 			geo: {
-	// 				lat: "0.0000",
-	// 				lng: "0.0000"
-	// 			}
-	// 		},
-	// 		phone: "000-000-0000",
-	// 		website: "unknown.com",
-	// 		company: {
-	// 			name: "Unknown Company",
-	// 			catchPhrase: "N/A",
-	// 			bs: "N/A"
-	// 		}
-	// 	}
-	// ],
-	// status: "idle"
 }
 
+// Thunk function
 export const fetchUsers = createAsyncThunk("campaigns/fetch", async () => {
 	const response = await fetch("https://jsonplaceholder.typicode.com/users")
 	return response.json()
@@ -92,8 +67,6 @@ const userSlice = createSlice({
 			})
 	}
 })
-
-// export const {} = campaignSlice.actions;
 
 //Selector
 export const selectUsers = (state: RootState) => state.users

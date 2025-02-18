@@ -1,7 +1,7 @@
 import DataTable from "react-data-table-component"
 import { ICampaign, ITableComponent } from "../types"
 import { useSelector } from "react-redux"
-import { selectUsers } from "../campaignSlice"
+import { selectUsers } from "../service/campaignSlice"
 import { isSafeArray } from "../../../utils/isSafeArray"
 import { useCallback } from "react"
 

@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-import userReducer from "../features/campaigns/campaignSlice"
+import userReducer from "../features/campaigns/service/campaignSlice"
 
 export const store = configureStore({
 	reducer: {
