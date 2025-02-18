@@ -4,7 +4,6 @@ import { useSelector } from "react-redux"
 import { selectUsers } from "../campaignSlice"
 import { isSafeArray } from "../../../utils/isSafeArray"
 import { useCallback } from "react"
-import CampaignData from "../data.json"
 
 function TableComponent({
 	campaigns,
@@ -106,8 +105,8 @@ function TableComponent({
 	*/
 	const getData = useCallback(() => {
 		if (debouncedValue) {
-			return isSafeArray(CampaignData)
-				? CampaignData.filter((item) =>
+			return isSafeArray(campaigns)
+				? campaigns.filter((item) =>
 						item.name.toLowerCase().includes(debouncedValue)
 					)
 				: []
@@ -118,8 +117,8 @@ function TableComponent({
 			return result
 		}
 
-		return CampaignData || []
-	}, [debouncedValue, endDate, getFilteredBydate, startDate])
+		return campaigns || []
+	}, [campaigns, debouncedValue, endDate, getFilteredBydate, startDate])
 
 	const getUserName = (userId: number): string => {
 		const user = users.find((u) => u.id === userId)

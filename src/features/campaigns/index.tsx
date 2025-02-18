@@ -18,14 +18,13 @@ function Campaigns() {
 
 	useEffect(() => {
 		dispatch(fetchUsers())
+		setCampaigns(CampaignData)
 	}, [dispatch])
 
 	useEffect(() => {
 		window.AddCampaigns = (newCampaigns) => {
 			if (Array.isArray(newCampaigns)) {
-				setCampaigns(newCampaigns)
-			} else {
-				setCampaigns(CampaignData)
+				setCampaigns((prev) => [...prev, ...newCampaigns])
 			}
 		}
 
