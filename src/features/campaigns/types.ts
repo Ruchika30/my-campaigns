@@ -1,3 +1,5 @@
+import { User } from "./service/campaignSlice"
+
 declare global {
 	interface Window {
 		AddCampaigns?: (campaigns: ICampaign[]) => void
@@ -9,6 +11,9 @@ export interface ITableComponent {
 	startDate: string
 	endDate: string
 	debouncedValue: string
+	loading: boolean
+	error: boolean
+	users: User[]
 }
 
 export interface ICampaign {

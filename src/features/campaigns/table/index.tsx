@@ -1,18 +1,17 @@
 import DataTable from "react-data-table-component"
 import { ICampaign, ITableComponent } from "../types"
-import { useSelector } from "react-redux"
-import { selectUsers } from "../service/campaignSlice"
 import { isSafeArray } from "../../../utils/isSafeArray"
 import { useCallback } from "react"
 
 function TableComponent({
+	error,
+	users,
+	loading,
 	campaigns,
 	startDate,
 	endDate,
 	debouncedValue
 }: ITableComponent) {
-	const { users, loading, error } = useSelector(selectUsers)
-
 	const tableStyle = {
 		headCells: {
 			style: {
@@ -121,7 +120,7 @@ function TableComponent({
 	}, [campaigns, debouncedValue, endDate, getFilteredBydate, startDate])
 
 	const getUserName = (userId: number): string => {
-		const user = users.find((u) => u.id === userId)
+		const user = users?.find((u) => u.id === userId)
 		return user ? user.name : "Unknown User"
 	}
 

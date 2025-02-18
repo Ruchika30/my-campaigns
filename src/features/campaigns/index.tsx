@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { fetchUsers } from "./service/campaignSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../../app/store"
 import CampaignData from "./service/data.json"
 import { ICampaign } from "./types"
 import useDebounce from "../../hooks/useDebounce"
+import { selectUsers } from "./service/campaignSlice"
 import "./style.css"
-import TableComponent from "./tableComponent.tsx"
+import TableComponent from "./table"
 
 function Campaigns() {
 	const [campaigns, setCampaigns] = useState<ICampaign[]>([])
@@ -15,6 +16,7 @@ function Campaigns() {
 	const [endDate, setEndDate] = useState<string>("")
 	const dispatch = useDispatch<AppDispatch>()
 	const debouncedValue = useDebounce(searchTerm)
+	const { users, loading, error } = useSelector(selectUsers)
 
 	useEffect(() => {
 		dispatch(fetchUsers())
@@ -93,6 +95,9 @@ function Campaigns() {
 				</div>
 
 				<TableComponent
+					users={users}
+					error={error}
+					loading={loading}
 					campaigns={campaigns}
 					startDate={startDate}
 					endDate={endDate}

@@ -68,9 +68,11 @@
 		]
 	},
 	"devDependencies": {
+		"@types/redux-mock-store": "^1.5.0",
 		"ajv": "^8.17.1",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-prettier": "^5.2.3",
-		"prettier": "^3.4.2"
+		"prettier": "^3.4.2",
+		"redux-mock-store": "^1.5.5"
 	}
 }

@@ -4,12 +4,12 @@ import { RootState } from "../../../app/store"
 export interface User {
 	id: number
 	name: string
-	username: string
-	email: string
-	address: Address
-	phone: string
-	website: string
-	company: Company
+	username?: string
+	email?: string
+	address?: Address
+	phone?: string
+	website?: string
+	company?: Company
 }
 export interface Address {
 	street: string
@@ -31,13 +31,13 @@ export interface Company {
 export interface UserState {
 	users: User[]
 	loading: boolean
-	error: string | null
+	error: boolean
 }
 
 const initialState: UserState = {
 	users: [],
 	loading: false,
-	error: null
+	error: false
 }
 
 // Thunk function
@@ -55,15 +55,17 @@ const userSlice = createSlice({
 		builder
 			.addCase(fetchUsers.pending, (state) => {
 				state.loading = true
-				state.error = null
+				state.error = false
 			})
 			.addCase(fetchUsers.fulfilled, (state, action) => {
+				console.log("action--", action)
+
 				state.loading = false
 				state.users = action.payload
 			})
 			.addCase(fetchUsers.rejected, (state, action) => {
 				state.loading = false
-				state.error = action.error.message || "Failed to fetch users"
+				state.error = true
 			})
 	}
 })
