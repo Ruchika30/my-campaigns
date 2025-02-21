@@ -2,12 +2,19 @@ import { useCallback } from "react"
 import { isSafeArray } from "../utils/isSafeArray"
 import { ICampaign } from "../features/campaigns/types"
 
+interface IFilterProps {
+	debouncedValue?: string
+	campaigns?: ICampaign[]
+	startDateFilter?: string
+	endDateFilter?: string
+}
+
 export const useFilter = ({
 	debouncedValue,
 	campaigns = [],
 	endDateFilter,
 	startDateFilter
-}: any) => {
+}: IFilterProps) => {
 	const getFilteredByDate = useCallback(() => {
 		const list = isSafeArray(campaigns)
 			? campaigns.filter((row: ICampaign) => {
@@ -33,11 +40,11 @@ export const useFilter = ({
 		2. Date range (startDate & endDate): Filters campaigns that fall within the selected date range.
 		3. Default: Returns all campaigns if no filters are applied.
 	*/
-	const getData = useCallback(() => {
+	const getData = () => {
 		if (debouncedValue) {
 			return isSafeArray(campaigns)
-				? campaigns.filter((item: any) =>
-						item.name.toLowerCase().includes(debouncedValue)
+				? campaigns.filter((item: ICampaign) =>
+						item.name.toLowerCase().includes(debouncedValue.toLowerCase())
 					)
 				: []
 		}
@@ -47,13 +54,7 @@ export const useFilter = ({
 		}
 
 		return campaigns
-	}, [
-		campaigns,
-		debouncedValue,
-		endDateFilter,
-		getFilteredByDate,
-		startDateFilter
-	])
+	}
 
 	return { filteredData: getData() }
 }

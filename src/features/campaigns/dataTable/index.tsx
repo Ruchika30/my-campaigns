@@ -11,7 +11,7 @@ function TableComponent({
 	startDateFilter,
 	endDateFilter,
 	debouncedValue
-}: ITableComponent) {
+}: ITableComponent): JSX.Element {
 	const { filteredData } = useFilter({
 		debouncedValue,
 		campaigns,

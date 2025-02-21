@@ -86,8 +86,8 @@ const renderComponent = (others = {}) => {
 
 	const props = {
 		users: mockUsers,
-		startDate: "3/5/2021",
-		endDate: "10/2/2026",
+		startDateFilter: "3/5/2021",
+		endDateFilter: "10/2/2026",
 		debouncedValue: "",
 		loading: false,
 		error: false,

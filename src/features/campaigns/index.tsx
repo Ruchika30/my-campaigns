@@ -6,7 +6,7 @@ import CampaignData from "../../service/data.json"
 import { ICampaign } from "./types"
 import useDebounce from "../../hooks/useDebounce"
 import { selectUsers } from "../../service/campaignSlice"
-import TableComponent from "./tabular"
+import TableComponent from "./dataTable"
 import "./style.css"
 
 function Campaigns() {
