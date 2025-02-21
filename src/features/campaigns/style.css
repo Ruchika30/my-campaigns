@@ -1,0 +1,38 @@
+
+
+.container{
+  margin: 5%
+}
+
+.tabular-container{
+  border: 1px solid #cdd6e0;
+  border-radius:  5px;
+  margin-bottom: 10px;
+}
+
+
+.input-field {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 200px; 
+    cursor: pointer;
+  }
+  
+  .input-field:focus {
+    border-color: #5b9bd5; 
+    box-shadow: 0 0 8px rgba(91, 155, 213, 0.5); 
+  }
+  
+  .input-field::placeholder {
+    color: #aaa; 
+  }
+  
+
+  .status{
+    padding: 5px;
+		border-radius: 5px;
+  }
