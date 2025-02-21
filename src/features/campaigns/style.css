@@ -1,3 +1,16 @@
+
+
+.container{
+  margin: 5%
+}
+
+.tabular-container{
+  border: 1px solid #cdd6e0;
+  border-radius:  5px;
+  margin-bottom: 10px;
+}
+
+
 .input-field {
     padding: 8px 12px;
     font-size: 14px;

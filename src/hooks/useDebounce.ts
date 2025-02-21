@@ -6,7 +6,7 @@ const useDebounce = (value: string) => {
 	useEffect(() => {
 		const dv = setTimeout(() => {
 			setQuery(value)
-		}, 500)
+		}, 300)
 
 		return () => clearTimeout(dv)
 	}, [value])

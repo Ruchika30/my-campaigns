@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { RootState } from "../../../app/store"
+import { RootState } from "../app/store"
 
 export interface User {
 	id: number
@@ -58,8 +58,6 @@ const userSlice = createSlice({
 				state.error = false
 			})
 			.addCase(fetchUsers.fulfilled, (state, action) => {
-				console.log("action--", action)
-
 				state.loading = false
 				state.users = action.payload
 			})

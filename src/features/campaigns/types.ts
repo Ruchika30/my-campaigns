@@ -1,4 +1,4 @@
-import { User } from "./service/campaignSlice"
+import { User } from "../../service/campaignSlice"
 
 declare global {
 	interface Window {
@@ -8,8 +8,8 @@ declare global {
 
 export interface ITableComponent {
 	campaigns: ICampaign[]
-	startDate: string
-	endDate: string
+	startDateFilter: string
+	endDateFilter: string
 	debouncedValue: string
 	loading: boolean
 	error: boolean

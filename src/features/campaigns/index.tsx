@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import { fetchUsers } from "./service/campaignSlice"
+import { fetchUsers } from "../../service/campaignSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../../app/store"
-import CampaignData from "./service/data.json"
+import CampaignData from "../../service/data.json"
 import { ICampaign } from "./types"
 import useDebounce from "../../hooks/useDebounce"
-import { selectUsers } from "./service/campaignSlice"
+import { selectUsers } from "../../service/campaignSlice"
+import TableComponent from "./tabular"
 import "./style.css"
-import TableComponent from "./table"
 
 function Campaigns() {
 	const [campaigns, setCampaigns] = useState<ICampaign[]>([])
@@ -44,13 +44,9 @@ function Campaigns() {
 	}
 
 	return (
-		<div style={{ margin: "5%" }}>
+		<div className="container">
 			<h3>Team Campaigns</h3>
-			<div
-				style={{
-					border: "1px solid grey"
-				}}
-			>
+			<div className="tabular-container">
 				{/* Filters */}
 				<div
 					style={{
@@ -93,14 +89,15 @@ function Campaigns() {
 						/>
 					</div>
 				</div>
-
+			</div>
+			<div className="tabular-container">
 				<TableComponent
 					users={users}
 					error={error}
 					loading={loading}
 					campaigns={campaigns}
-					startDate={startDate}
-					endDate={endDate}
+					startDateFilter={startDate}
+					endDateFilter={endDate}
 					debouncedValue={debouncedValue}
 				/>
 			</div>
